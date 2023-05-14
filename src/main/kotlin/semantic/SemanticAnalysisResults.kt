@@ -25,4 +25,9 @@ class SemanticAnalysisResults {
         if(response.error.isNotEmpty()) addError(response.error)
     }
 
+    override fun toString(): String {
+        return "SemanticAnalysisResults(isCorrect=$isCorrect, warnings='$warnings', errors='$errors')"
+    }
+
+
 }

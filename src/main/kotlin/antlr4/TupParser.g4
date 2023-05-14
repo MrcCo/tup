@@ -54,7 +54,7 @@ statusCode: INTEGER;
 responseBodyIsStep: validateThatresponseBodyIs STRING DOT ;
 validateThatresponseBodyIs: VALIDATE THAT RESPONSE BODY IS COLON;
 
-// Validate that resoibse body contains field ${name} with value ${value}.
+// Validate that response body contains field ${name} with value ${value}.
 responseBodyContainsFieldStep: validateThatResponseBodyHasField STRING withValue STRING DOT;
 validateThatResponseBodyHasField: VALIDATE THAT RESPONSE BODY HAS FIELD COLON;
 withValue: WITH VALUE COLON;
