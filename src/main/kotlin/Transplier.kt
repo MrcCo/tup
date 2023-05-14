@@ -1,5 +1,6 @@
 import antlr4.TupLexer
 import antlr4.TupParser
+import generatior.CodeGenerator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
@@ -19,5 +20,9 @@ fun main() {
     val semanticListener = SemanticAnalyzer()
     walker.walk(semanticListener, parser.test())
     println(semanticListener.getResults())
-
+    println(semanticListener.getMetadata())
+    parser.reset()
+    val generator = CodeGenerator(semanticListener.getMetadata())
+    walker.walk(generator, parser.test())
+    println(generator.code)
 }

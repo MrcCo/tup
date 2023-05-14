@@ -8,12 +8,13 @@ val AVAILABLE_TEST_TYPES = listOf("SELENIUM", "REST API")
 val HTTP_METHODS = listOf("GET", "POST", "PATCH", "PUT", "DELETE")
 val HTTP_METHODS_SUPPORTING_REQUEST_BODY = listOf("POST", "PATCH", "PUT")
 val RESERVED_STATUS_CODES = listOf(
-    100..103,
-    200..208, 228,
-    300..308,
-    400..418, 421..426, 428, 429, 431, 451,
-    500..508, 510, 511
-)
+    (100..103) +
+            (200..208) + 228 +
+            (300..308) +
+            (400..418) + (421..426) + 428 + 429 + 431 + 451 +
+            (500..508) + 510 + 511
+).flatten()
+
 // response
 data class ValidationResponse(val isValid: Boolean, val warning: String, val error: String) {
     constructor(isValid: Boolean) : this(isValid, "", "")
@@ -22,7 +23,7 @@ data class ValidationResponse(val isValid: Boolean, val warning: String, val err
 
 fun TupParser.TestTypeContext.validate(): ValidationResponse {
 
-    val type = STRING().toString();
+    val type = STRING().toString().replace("\"","")
 
     if (AVAILABLE_TEST_TYPES.contains(type.uppercase())) {
         return ValidationResponse(true)
@@ -71,7 +72,7 @@ fun TupParser.RequestBodyContext.validate(): ValidationResponse {
         ?: return ValidationResponse(true, "GET request does not support a request body", "")
 
     val requestMethodSupportsRequestBody = HTTP_METHODS_SUPPORTING_REQUEST_BODY.contains(requestMethod.toString())
-    return if(requestMethodSupportsRequestBody) {
+    return if (requestMethodSupportsRequestBody) {
         ValidationResponse(true)
     } else {
         ValidationResponse(true, "${requestMethod.toString().uppercase()} does not support a request body", "")
@@ -80,9 +81,10 @@ fun TupParser.RequestBodyContext.validate(): ValidationResponse {
 
 fun TupParser.ResponseCodeValidationStepContext.validate(): ValidationResponse {
     val statusCode = this.statusCode().INTEGER().toString().toInt()
-    return if(statusCode < 100 || statusCode > 599) {
+
+    return if (statusCode < 100 || statusCode > 599) {
         ValidationResponse(true, "Status codes are generally between 100 and 599", "")
-    } else if(!RESERVED_STATUS_CODES.contains(statusCode)) {
+    } else if (!RESERVED_STATUS_CODES.contains(statusCode)) {
         ValidationResponse(true, "$statusCode is not a reserved status code", "")
     } else {
         ValidationResponse(true)
