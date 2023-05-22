@@ -1,4 +1,4 @@
-package semantic
+package rs.ac.bg.etf.sm203134m.semantic
 
 class SemanticAnalysisResults {
 

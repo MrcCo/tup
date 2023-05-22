@@ -1,13 +1,17 @@
-package semantic
+package rs.ac.bg.etf.sm203134m.semantic
 
-import antlr4.TupParser
-import antlr4.TupParserBaseListener
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 
 class SemanticAnalyzer: TupParserBaseListener() {
 
     private val results = SemanticAnalysisResults()
     private val metadata = TestMetadata()
     private var hasPreviousRequests = false
+
+    override fun enterTestName(ctx: TupParser.TestNameContext?) {
+        metadata.testName = ctx?.IDENTIFIER()?.text ?: "Unnamed"
+    }
 
     // validates for available test types
     override fun enterTestType(ctx: TupParser.TestTypeContext) {

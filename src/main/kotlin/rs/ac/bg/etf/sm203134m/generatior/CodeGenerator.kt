@@ -1,12 +1,12 @@
-package generatior
+package rs.ac.bg.etf.sm203134m.generatior
 
-import antlr4.TupParser
-import antlr4.TupParserBaseListener
-import generatior.generators.SymbolTable
-import generatior.generators.generateImportsFromMetadata
-import generatior.generators.generateOnEntry
-import generatior.generators.generateOnExit
-import semantic.TestMetadata
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
+import rs.ac.bg.etf.sm203134m.generatior.generators.SymbolTable
+import rs.ac.bg.etf.sm203134m.generatior.generators.generateImportsFromMetadata
+import rs.ac.bg.etf.sm203134m.generatior.generators.generateOnEntry
+import rs.ac.bg.etf.sm203134m.generatior.generators.generateOnExit
+import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 class CodeGenerator(val metadata: TestMetadata) : TupParserBaseListener() {
 

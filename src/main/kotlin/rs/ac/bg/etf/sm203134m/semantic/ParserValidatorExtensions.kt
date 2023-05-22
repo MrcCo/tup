@@ -1,6 +1,6 @@
-package semantic
+package rs.ac.bg.etf.sm203134m.semantic
 
-import antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import org.apache.commons.validator.routines.UrlValidator
 
 // constants
@@ -43,7 +43,7 @@ fun TupParser.HttpMethodContext.validate(): ValidationResponse {
 }
 
 fun TupParser.RequestContext.validate(): ValidationResponse {
-    val url = this.STRING().toString().substring(1, this.STRING().toString().length - 1);
+    val url = this.STRING().toString().substring(1, this.STRING().toString().length - 1)
     return if (UrlValidator.getInstance().isValid(url)) {
         ValidationResponse(true)
     } else {

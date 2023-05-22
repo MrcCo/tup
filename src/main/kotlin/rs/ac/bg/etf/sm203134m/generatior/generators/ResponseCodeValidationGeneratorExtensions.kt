@@ -1,6 +1,6 @@
-package generatior.generators
+package rs.ac.bg.etf.sm203134m.generatior.generators
 
-import antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import org.junit.jupiter.api.Assertions
 
 fun TupParser.ResponseCodeValidationStepContext.generateOnEntry(symbolTable: SymbolTable): String {

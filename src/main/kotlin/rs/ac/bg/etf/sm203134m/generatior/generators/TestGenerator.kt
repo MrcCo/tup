@@ -1,6 +1,6 @@
-package generatior.generators
+package rs.ac.bg.etf.sm203134m.generatior.generators
 
-import antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 
 fun TupParser.TestContext.generateOnEntry(): String {
     val className = this.testMetaData().testName().IDENTIFIER().toString()

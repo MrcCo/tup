@@ -1,8 +1,8 @@
-package generatior.generators
+package rs.ac.bg.etf.sm203134m.generatior.generators
 
-import antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import org.junit.jupiter.api.Test
-import semantic.TestMetadata
+import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 
 fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
@@ -16,5 +16,5 @@ fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
 }
 
 fun TupParser.TestStepsContext.generateOnExit(symbolTable: SymbolTable): String {
-    return "\t\tresponse.close()\n\t}\n"
+    return "\t\tresponse.close();\n\t}\n"
 }
