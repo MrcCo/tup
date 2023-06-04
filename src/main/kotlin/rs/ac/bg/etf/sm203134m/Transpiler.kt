@@ -1,15 +1,15 @@
 package rs.ac.bg.etf.sm203134m
 
-import rs.ac.bg.etf.sm203134m.antlr4.TupLexer
-import rs.ac.bg.etf.sm203134m.antlr4.TupParser
-import rs.ac.bg.etf.sm203134m.generatior.CodeGenerator
+import rs.ac.bg.etf.sm203134m.generation.CodeGenerator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import rs.ac.bg.etf.sm203134m.antlr4.TupLexer
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.semantic.SemanticAnalyzer
 import rs.ac.bg.etf.sm203134m.writer.CodeWriter
 
-class Transpiler(private val originPath: String) {
+class Transpiler(originPath: String) {
 
     val parser: TupParser
     val walker: ParseTreeWalker

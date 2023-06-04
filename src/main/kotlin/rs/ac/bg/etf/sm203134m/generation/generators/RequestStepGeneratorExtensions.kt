@@ -1,4 +1,4 @@
-package rs.ac.bg.etf.sm203134m.generatior.generators
+package rs.ac.bg.etf.sm203134m.generation.generators
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import java.util.Objects
@@ -7,7 +7,8 @@ fun TupParser.RequestStepContext.generateOnEntry(symbolTable: SymbolTable): Stri
 
     var code = ""
     // todo custom naming from sym table
-    code += "\t\tvar request = new Request.Builder()\n"
+    val request = symbolTable.createNextRequest()
+    code += "\t\tvar $request = new Request.Builder()\n"
     code += "\t\t\t.url(${this.getUrlString()})\n"
     code += if(this.hasRequestBody()) {
         val mediaType = "MediaType.parse(\"application/json\")"
@@ -20,8 +21,15 @@ fun TupParser.RequestStepContext.generateOnEntry(symbolTable: SymbolTable): Stri
     }
     code += "\t\t\t.build();\n"
 
+    val response = symbolTable.createNextResponse()
+    code += "\t\tvar $response = client.newCall($request).execute();\n"
 
-    code += "\t\tvar response = client.newCall(request).execute();\n"
+    val responseCode = symbolTable.createNextResponseCode()
+    code += "\t\tvar $responseCode = $response.code();\n"
+
+    val responseBody = symbolTable.createNextResponseBody()
+    code += "\t\tvar $responseBody = $response.body() != null ? $response.body().string() : \"\";\n\n"
+
     return code
 }
 
@@ -53,11 +61,9 @@ fun TupParser.RequestStepContext.hasHeaders(): Boolean {
 fun TupParser.RequestStepContext.getRequestHeadersString(): String {
 
     return this.requestHeaders()
-        .headerPair()
-        .map {
-            it.STRING()
-                .map { i -> i.toString() }
-                .joinToString(",")
-        }.joinToString(",")
+        .headerPair().joinToString(",") {
+            it.STRING().joinToString(",") { i -> i.toString() }
+        }
 
 }
+

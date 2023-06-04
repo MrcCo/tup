@@ -1,0 +1,11 @@
+name: ExampleTest.
+description: "This an example".
+type: "REST api".
+steps:
+  Execute an api request to: "https://api.agify.io/?name=jack".
+  Assert that last response has status code: 200.
+  Assert that last response body has field: "name" with value: "jack".
+  Execute an api request to: "https://api.agify.io/?name=marko".
+  Assert that last response has status code: 200.
+  Assert that last response body has field: "name" with value: "marko".
+  Assert that last response body has field: "name" with value: "marko".

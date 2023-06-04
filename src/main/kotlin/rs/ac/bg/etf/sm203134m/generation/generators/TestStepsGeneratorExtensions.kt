@@ -1,7 +1,7 @@
-package rs.ac.bg.etf.sm203134m.generatior.generators
+package rs.ac.bg.etf.sm203134m.generation.generators
 
-import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import org.junit.jupiter.api.Test
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 
@@ -11,10 +11,15 @@ fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
     if(metadata.requiresOkhttp) {
         methodSignature +=  " throws IOException "
     }
-    methodSignature += "{\n"
+    methodSignature += "{\n\n"
     return methodSignature
 }
 
 fun TupParser.TestStepsContext.generateOnExit(symbolTable: SymbolTable): String {
-    return "\t\tresponse.close();\n\t}\n"
+    var closeStatements = "";
+    symbolTable.responses.forEach {
+        closeStatements += "\t\t$it.close();\n"
+    }
+    closeStatements += "\t}"
+    return closeStatements
 }

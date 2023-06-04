@@ -3,21 +3,21 @@ package rs.ac.bg.etf.sm203134m.semantic
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 
-class SemanticAnalyzer: TupParserBaseListener() {
+class SemanticAnalyzer : TupParserBaseListener() {
 
     private val results = SemanticAnalysisResults()
     private val metadata = TestMetadata()
     private var hasPreviousRequests = false
 
     override fun enterTestName(ctx: TupParser.TestNameContext?) {
-        metadata.testName = ctx?.IDENTIFIER()?.text ?: "Unnamed"
+        metadata.testName = ctx?.IDENTIFIER()?.text!!
     }
 
     // validates for available test types
     override fun enterTestType(ctx: TupParser.TestTypeContext) {
         results.appendValidationResponse(ctx.validate())
-        val type = ctx.STRING().toString().replace("\"","")
-        if(type.equals("rest api", true)) {
+        val type = ctx.STRING().toString().replace("\"", "")
+        if (type.equals("rest api", true)) {
             metadata.requiresOkhttp = true
         }
     }
@@ -46,28 +46,49 @@ class SemanticAnalyzer: TupParserBaseListener() {
     }
 
     // response code validation step validation
-    override fun enterResponseCodeValidationStep(ctx: TupParser.ResponseCodeValidationStepContext?) {
-        if(!hasPreviousRequests) {
-            results.appendValidationResponse(ValidationResponse(false, "", "You cannot perform assertions without previously creating any requests!"))
+    override fun enterAssertResponseCode(ctx: TupParser.AssertResponseCodeContext?) {
+        if (!hasPreviousRequests) {
+            results.appendValidationResponse(
+                ValidationResponse(
+                    false,
+                    "",
+                    "You cannot perform assertions without previously creating any requests!"
+                )
+            )
         } else {
             ctx?.let { results.appendValidationResponse(it.validate()) }
         }
         metadata.requiresAssertions = true
     }
 
-    override fun enterResponseBodyIsStep(ctx: TupParser.ResponseBodyIsStepContext?) {
-        if(!hasPreviousRequests) {
-            results.appendValidationResponse(ValidationResponse(false, "", "You cannot perform assertions without previously creating any requests!"))
+    override fun enterAssertResponseBody(ctx: TupParser.AssertResponseBodyContext?) {
+        if (!hasPreviousRequests) {
+            results.appendValidationResponse(
+                ValidationResponse(
+                    false,
+                    "",
+                    "You cannot perform assertions without previously creating any requests!"
+                )
+            )
         }
         metadata.requiresAssertions = true
     }
 
-    override fun enterResponseBodyContainsFieldStep(ctx: TupParser.ResponseBodyContainsFieldStepContext?) {
-        if(!hasPreviousRequests) {
-            results.appendValidationResponse(ValidationResponse(false, "", "You cannot perform assertions without previously creating any requests!"))
+    override fun enterAssertResponseBodyContainsField(ctx: TupParser.AssertResponseBodyContainsFieldContext?) {
+        if (!hasPreviousRequests) {
+            results.appendValidationResponse(
+                ValidationResponse(
+                    false,
+                    "",
+                    "You cannot perform assertions without previously creating any requests!"
+                )
+            )
         }
         metadata.requiresAssertions = true
+        metadata.requiresObjectMapper = true
     }
+
+
 
     fun getResults(): SemanticAnalysisResults {
         return results

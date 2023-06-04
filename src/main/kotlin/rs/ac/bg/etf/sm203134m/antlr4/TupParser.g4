@@ -31,9 +31,9 @@ testStepsHeader: TEST? STEPS COLON;
 
 step:
     requestStep
-    | responseCodeValidationStep
-    | responseBodyIsStep
-    | responseBodyContainsFieldStep
+    | assertResponseCode
+    | assertResponseBody
+    | assertResponseBodyContainsField
 ;
 
 // Execute a REST API request to ${URL} (with headers ${headers}) ? (with body ${body})? .
@@ -45,16 +45,11 @@ requestHeaders: WITH HEADERS LEFT_SQUARE_BRACKET headerPair (COMMA headerPair)* 
 headerPair: LEFT_CURLY_BRACKET STRING COLON STRING RIGHT_CURLY_BRACKET ;
 requestBody: WITH BODY STRING;
 
-// Validate that the status code of the last request is ${status_code}.
-responseCodeValidationStep: statusCodeValidation statusCode DOT ;
-statusCodeValidation: VALIDATE THAT RESPONSE HAS STATUS CODE COLON;
-statusCode: INTEGER;
+// Assert that last response has status: ${status}.
+assertResponseCode: ASSERT THAT LAST RESPONSE HAS STATUS CODE COLON INTEGER DOT ;
 
-// Validate that response body is " ... " .
-responseBodyIsStep: validateThatresponseBodyIs STRING DOT ;
-validateThatresponseBodyIs: VALIDATE THAT RESPONSE BODY IS COLON;
+// Assert that last response body is: "...".
+assertResponseBody: ASSERT THAT LAST RESPONSE BODY IS COLON STRING DOT ;
 
-// Validate that response body contains field ${name} with value ${value}.
-responseBodyContainsFieldStep: validateThatResponseBodyHasField STRING withValue STRING DOT;
-validateThatResponseBodyHasField: VALIDATE THAT RESPONSE BODY HAS FIELD COLON;
-withValue: WITH VALUE COLON;
+// Assert that last response body has field: "${name}" with value: "${value}".
+assertResponseBodyContainsField: ASSERT THAT LAST RESPONSE BODY HAS FIELD COLON STRING WITH VALUE COLON STRING DOT;

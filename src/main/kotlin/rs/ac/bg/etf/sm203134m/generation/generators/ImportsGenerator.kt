@@ -1,5 +1,6 @@
-package rs.ac.bg.etf.sm203134m.generatior.generators
+package rs.ac.bg.etf.sm203134m.generation.generators
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.Headers
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -19,6 +20,12 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
 
     if(metadata.requiresAssertions) {
         imports += "\nimport ${Assertions::class.qualifiedName};\n"
+    }
+
+    imports += "\n"
+
+    if(metadata.requiresObjectMapper) {
+        imports += "\nimport ${ObjectMapper::class.qualifiedName};\n"
     }
 
     imports += "\n"

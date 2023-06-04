@@ -1,7 +1,7 @@
 package rs.ac.bg.etf.sm203134m.semantic
 
-import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import org.apache.commons.validator.routines.UrlValidator
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 
 // constants
 val AVAILABLE_TEST_TYPES = listOf("SELENIUM", "REST API")
@@ -79,8 +79,8 @@ fun TupParser.RequestBodyContext.validate(): ValidationResponse {
     }
 }
 
-fun TupParser.ResponseCodeValidationStepContext.validate(): ValidationResponse {
-    val statusCode = this.statusCode().INTEGER().toString().toInt()
+fun TupParser.AssertResponseCodeContext.validate(): ValidationResponse {
+    val statusCode = this.INTEGER().toString().toInt()
 
     return if (statusCode < 100 || statusCode > 599) {
         ValidationResponse(true, "Status codes are generally between 100 and 599", "")
