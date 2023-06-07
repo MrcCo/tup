@@ -12,18 +12,18 @@ class SemanticAnalyzer : TupParserBaseListener() {
 
     // validates for available test types
     override fun enterTestType(ctx: TupParser.TestTypeContext) {
-        results.appendValidationResponse(ctx.validate())
-        val type = ctx.STRING().toString().replace("\"", "")
-        if (type.equals("rest api", true)) {
+        if (ctx.API() != null) {
             metadata.requiresOkhttp = true
+        } else if(ctx.UI() != null) {
+            metadata.requiresSelenium = true
         }
     }
 
     // request step validation
+    // todo - forbid request steps in ui tests
     // validates if http method is valid
-    override fun enterRequestStep(ctx: TupParser.RequestStepContext?) {
+    override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
         hasPreviousRequests = true
-        metadata.requiresOkhttp = true
     }
 
     override fun enterHttpMethod(ctx: TupParser.HttpMethodContext?) {

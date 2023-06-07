@@ -2,20 +2,20 @@ package rs.ac.bg.etf.sm203134m.semantic
 
 class SemanticAnalysisResults {
 
-    var isCorrect = true
-    var warnings = ""
-    var errors = ""
+    private var isCorrect = true
+    private var warnings = ""
+    private var errors = ""
 
 
-    fun incorrect() {
+    private fun incorrect() {
         isCorrect = false
     }
 
-    fun addWarning(warning: String) {
+    private fun addWarning(warning: String) {
         warnings += ";${warning}"
     }
 
-    fun addError(error: String) {
+    private fun addError(error: String) {
         errors += ";${error}"
     }
 

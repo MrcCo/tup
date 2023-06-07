@@ -1,6 +1,7 @@
 name: ExampleTest.
-description: "This an example".
-type: "REST api".
+description: "This an example
+sdsad".
+type: api.
 steps:
   Execute an api request to: "https://api.agify.io/?name=jack".
   Assert that last response has status code: 200.

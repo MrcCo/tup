@@ -3,7 +3,7 @@ package rs.ac.bg.etf.sm203134m.generation.generators
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import java.util.Objects
 
-fun TupParser.RequestStepContext.generateOnEntry(symbolTable: SymbolTable): String {
+fun TupParser.ExecuteApiRequestContext.generateOnEntry(symbolTable: SymbolTable): String {
 
     var code = ""
 
@@ -33,7 +33,7 @@ fun TupParser.RequestStepContext.generateOnEntry(symbolTable: SymbolTable): Stri
     return code
 }
 
-private fun TupParser.RequestStepContext.getRequestMethod(): String {
+private fun TupParser.ExecuteApiRequestContext.getRequestMethod(): String {
     return if (Objects.isNull(this.request().httpMethod())) {
         "get"
     } else {
@@ -41,24 +41,24 @@ private fun TupParser.RequestStepContext.getRequestMethod(): String {
     }
 }
 
-private fun TupParser.RequestStepContext.getUrlString(): String {
+private fun TupParser.ExecuteApiRequestContext.getUrlString(): String {
     return this.request().STRING().toString()
 }
 
-fun TupParser.RequestStepContext.hasRequestBody(): Boolean {
+fun TupParser.ExecuteApiRequestContext.hasRequestBody(): Boolean {
     return this.requestBody() != null
 }
 
-fun TupParser.RequestStepContext.getRequestBodyString(): String {
+fun TupParser.ExecuteApiRequestContext.getRequestBodyString(): String {
     return this.requestBody()?.STRING()?.toString() ?: ""
 }
 
-fun TupParser.RequestStepContext.hasHeaders(): Boolean {
+fun TupParser.ExecuteApiRequestContext.hasHeaders(): Boolean {
     return this.requestHeaders() != null
             && this.requestHeaders().headerPair().isNotEmpty()
 }
 
-fun TupParser.RequestStepContext.getRequestHeadersString(): String {
+fun TupParser.ExecuteApiRequestContext     .getRequestHeadersString(): String {
 
     return this.requestHeaders()
         .headerPair().joinToString(",") {

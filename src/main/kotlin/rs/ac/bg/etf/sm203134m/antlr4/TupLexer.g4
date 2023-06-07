@@ -5,6 +5,7 @@ TEST: T E S T;
 NAME: N A M E;
 DESCRIPTION: D E S C R I P T I O N;
 TYPE: T Y P E;
+UI: U I;
 STEPS: S T E P S;
 EXECUTE: E X E C U T E;
 AN: A N;
@@ -24,6 +25,10 @@ CODE: C O D E;
 IS: I S;
 FIELD: F I E L D;
 VALUE: V A L U E;
+OPEN: O P E N;
+WEB: W E B;
+PAGE: P A G E;
+CURRENT: C U R R E N T;
 
 // general
 INTEGER: [0-9]+ ;

@@ -4,6 +4,7 @@ class TestMetadata {
 
     // api test requirements
     var requiresOkhttp = false
-    var requiresObjectMapper = false;
+    var requiresObjectMapper = false
 
+    var requiresSelenium = false
 }

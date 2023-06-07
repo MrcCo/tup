@@ -1,0 +1,6 @@
+name: SeleniumTest.
+description: "This an example using selenium".
+type: ui.
+steps:
+  Open web page: "https://bonigarcia.dev/selenium-webdriver-java/".
+  Assert that current page is "https://bonigarcia.dev/selenium-webdriver-java/".

@@ -1,14 +1,18 @@
 package rs.ac.bg.etf.sm203134m.generation.generators
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.bonigarcia.wdm.WebDriverManager
 import okhttp3.Headers
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.edge.EdgeDriver
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 import java.io.IOException
@@ -28,8 +32,12 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
     var imports = """
         import ${Test::class.qualifiedName!!};
         import ${BeforeEach::class.qualifiedName!!};
-        import ${Assertions::class.qualifiedName};
+        import ${Assertions::class.qualifiedName!!};
         """.trimIndent()
+
+    if(metadata.requiresSelenium) {
+        imports += "\nimport ${AfterEach::class.qualifiedName!!};"
+    }
 
     imports += "\n"
 
@@ -49,7 +57,15 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
             
             import ${IOException::class.qualifiedName!!};
         """.trimIndent()
-        imports += "\n\n"
+    }
+
+    // todo - for now only support edge
+    if(metadata.requiresSelenium) {
+        imports += """
+            import ${WebDriverManager::class.qualifiedName};
+            import ${WebDriver::class.qualifiedName};
+            import ${EdgeDriver::class.qualifiedName};
+        """.trimIndent()
     }
 
     return imports

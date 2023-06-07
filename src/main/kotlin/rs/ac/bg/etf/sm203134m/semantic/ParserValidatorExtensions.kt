@@ -4,7 +4,6 @@ import org.apache.commons.validator.routines.UrlValidator
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 
 // constants
-val AVAILABLE_TEST_TYPES = listOf("SELENIUM", "REST API")
 val HTTP_METHODS = listOf("GET", "POST", "PATCH", "PUT", "DELETE")
 val HTTP_METHODS_SUPPORTING_REQUEST_BODY = listOf("POST", "PATCH", "PUT")
 val RESERVED_STATUS_CODES = listOf(
@@ -18,19 +17,6 @@ val RESERVED_STATUS_CODES = listOf(
 // response
 data class ValidationResponse(val isValid: Boolean, val warning: String, val error: String) {
     constructor(isValid: Boolean) : this(isValid, "", "")
-}
-
-
-fun TupParser.TestTypeContext.validate(): ValidationResponse {
-
-    val type = STRING().toString().replace("\"","")
-
-    if (AVAILABLE_TEST_TYPES.contains(type.uppercase())) {
-        return ValidationResponse(true)
-    }
-
-    return ValidationResponse(false, "", "Test type $type is not available, try Selenium or Rest Api")
-
 }
 
 fun TupParser.HttpMethodContext.validate(): ValidationResponse {
@@ -67,7 +53,7 @@ fun TupParser.HeaderPairContext.validate(): ValidationResponse {
 
 fun TupParser.RequestBodyContext.validate(): ValidationResponse {
 
-    val request = this.getParent() as? TupParser.RequestStepContext
+    val request = this.getParent() as? TupParser.ExecuteApiRequestContext
     val requestMethod = request?.request()?.httpMethod()?.IDENTIFIER()
         ?: return ValidationResponse(true, "GET request does not support a request body", "")
 
