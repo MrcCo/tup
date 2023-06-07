@@ -3,27 +3,21 @@ parser grammar TupParser;
 options { tokenVocab=TupLexer; }
 
 test:
-    testMetaData
-    testSteps
-;
-
-testMetaData:
     testName
     testDescription
     testType
+    testSteps
 ;
 
+
 // TEST: name.
-testName: testNameHeader IDENTIFIER DOT;
-testNameHeader: TEST? NAME COLON;
+testName: TEST? NAME COLON IDENTIFIER DOT;
 
 // DESCRIPTION: "Description".
-testDescription: testDescriptionHeader STRING DOT;
-testDescriptionHeader: TEST? DESCRIPTION COLON;
+testDescription: TEST? DESCRIPTION COLON STRING DOT;
 
 // TEST TYPE: REST API | SELENIUM.
-testType: testTypeHeader STRING DOT;
-testTypeHeader: TEST? TYPE COLON;
+testType: TEST? TYPE COLON STRING DOT;
 
 // TEST STEPS: step...
 testSteps: testStepsHeader step+ ;
@@ -37,8 +31,7 @@ step:
 ;
 
 // Execute a REST API request to ${URL} (with headers ${headers}) ? (with body ${body})? .
-requestStep: executeRequest request requestHeaders? requestBody? DOT ;
-executeRequest: EXECUTE AN API REQUEST TO COLON;
+requestStep: EXECUTE AN API REQUEST TO COLON request requestHeaders? requestBody? DOT ;
 request: httpMethod? STRING;
 httpMethod: IDENTIFIER;
 requestHeaders: WITH HEADERS LEFT_SQUARE_BRACKET headerPair (COMMA headerPair)* RIGHT_SQUARE_BRACKET ;

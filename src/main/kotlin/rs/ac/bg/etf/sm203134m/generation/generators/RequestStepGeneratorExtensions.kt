@@ -6,7 +6,7 @@ import java.util.Objects
 fun TupParser.RequestStepContext.generateOnEntry(symbolTable: SymbolTable): String {
 
     var code = ""
-    // todo custom naming from sym table
+
     val request = symbolTable.createNextRequest()
     code += "\t\tvar $request = new Request.Builder()\n"
     code += "\t\t\t.url(${this.getUrlString()})\n"
