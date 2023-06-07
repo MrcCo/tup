@@ -5,13 +5,10 @@ import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 
 class SemanticAnalyzer : TupParserBaseListener() {
 
-    private val results = SemanticAnalysisResults()
-    private val metadata = TestMetadata()
+    val results = SemanticAnalysisResults()
+    val metadata = TestMetadata()
     private var hasPreviousRequests = false
 
-    override fun enterTestName(ctx: TupParser.TestNameContext?) {
-        metadata.testName = ctx?.IDENTIFIER()?.text!!
-    }
 
     // validates for available test types
     override fun enterTestType(ctx: TupParser.TestTypeContext) {
@@ -58,7 +55,6 @@ class SemanticAnalyzer : TupParserBaseListener() {
         } else {
             ctx?.let { results.appendValidationResponse(it.validate()) }
         }
-        metadata.requiresAssertions = true
     }
 
     override fun enterAssertResponseBody(ctx: TupParser.AssertResponseBodyContext?) {
@@ -71,7 +67,6 @@ class SemanticAnalyzer : TupParserBaseListener() {
                 )
             )
         }
-        metadata.requiresAssertions = true
     }
 
     override fun enterAssertResponseBodyContainsField(ctx: TupParser.AssertResponseBodyContainsFieldContext?) {
@@ -84,17 +79,7 @@ class SemanticAnalyzer : TupParserBaseListener() {
                 )
             )
         }
-        metadata.requiresAssertions = true
         metadata.requiresObjectMapper = true
     }
 
-
-
-    fun getResults(): SemanticAnalysisResults {
-        return results
-    }
-
-    fun getMetadata(): TestMetadata {
-        return metadata
-    }
 }

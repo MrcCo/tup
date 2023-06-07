@@ -3,7 +3,6 @@ package rs.ac.bg.etf.sm203134m.generation
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 import rs.ac.bg.etf.sm203134m.generation.generators.SymbolTable
-import rs.ac.bg.etf.sm203134m.generation.generators.generateImportsFromMetadata
 import rs.ac.bg.etf.sm203134m.generation.generators.assertions.api.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnExit
@@ -13,14 +12,10 @@ class CodeGenerator(val metadata: TestMetadata) : TupParserBaseListener() {
 
 
     var code = ""
-    private val symbolTable = SymbolTable()
-    init {
-        code += generateImportsFromMetadata(metadata)
-    }
-
+    val symbolTable = SymbolTable()
 
     override fun enterTest(ctx: TupParser.TestContext?) {
-        code += ctx?.generateOnEntry()
+        code += ctx?.generateOnEntry(metadata, symbolTable)
     }
 
     override fun exitTest(ctx: TupParser.TestContext?) {

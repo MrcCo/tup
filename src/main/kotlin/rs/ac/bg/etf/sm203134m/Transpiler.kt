@@ -26,9 +26,9 @@ class Transpiler(originPath: String) {
         val semanticListener = SemanticAnalyzer()
         walker.walk(semanticListener, parser.test())
         parser.reset()
-        val generator = CodeGenerator(semanticListener.getMetadata())
+        val generator = CodeGenerator(semanticListener.metadata)
         walker.walk(generator, parser.test())
-        CodeWriter(destinationDirectory).write("${generator.metadata.testName}.java", generator.code)
+        CodeWriter(destinationDirectory).write("${generator.symbolTable.testClassName}.java", generator.code)
     }
 
 }
