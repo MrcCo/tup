@@ -1,4 +1,4 @@
-package rs.ac.bg.etf.sm203134m.generation.generators.assertions.api
+package rs.ac.bg.etf.sm203134m.generation.generators.api.assertions
 
 import org.apache.commons.text.StringEscapeUtils
 import org.junit.jupiter.api.Assertions

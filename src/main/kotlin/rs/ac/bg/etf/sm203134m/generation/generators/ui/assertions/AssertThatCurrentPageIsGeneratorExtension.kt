@@ -1,4 +1,4 @@
-package rs.ac.bg.etf.sm203134m.generation.generators.assertions.selenium
+package rs.ac.bg.etf.sm203134m.generation.generators.ui.assertions
 
 import org.junit.jupiter.api.Assertions
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser

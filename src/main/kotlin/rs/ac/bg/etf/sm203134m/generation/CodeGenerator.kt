@@ -3,13 +3,16 @@ package rs.ac.bg.etf.sm203134m.generation
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 import rs.ac.bg.etf.sm203134m.generation.generators.SymbolTable
-import rs.ac.bg.etf.sm203134m.generation.generators.assertions.api.generateOnEntry
-import rs.ac.bg.etf.sm203134m.generation.generators.assertions.selenium.generateOnEntry
+import rs.ac.bg.etf.sm203134m.generation.generators.api.assertions.generateOnEntry
+import rs.ac.bg.etf.sm203134m.generation.generators.ui.assertions.generateOnEntry
+import rs.ac.bg.etf.sm203134m.generation.generators.api.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnExit
+import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnEntry
+import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnExit
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
-class CodeGenerator(val metadata: TestMetadata) : TupParserBaseListener() {
+class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener() {
 
 
     var code = ""

@@ -1,6 +1,7 @@
-package rs.ac.bg.etf.sm203134m.generation.generators
+package rs.ac.bg.etf.sm203134m.generation.generators.api
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.generation.generators.SymbolTable
 import java.util.Objects
 
 fun TupParser.ExecuteApiRequestContext.generateOnEntry(symbolTable: SymbolTable): String {

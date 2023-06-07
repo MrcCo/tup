@@ -1,4 +1,4 @@
-package rs.ac.bg.etf.sm203134m.generation.generators
+package rs.ac.bg.etf.sm203134m.generation.generators.ui
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 

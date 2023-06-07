@@ -1,4 +1,4 @@
-package rs.ac.bg.etf.sm203134m.generation.generators
+package rs.ac.bg.etf.sm203134m.generation.generators.ui
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
