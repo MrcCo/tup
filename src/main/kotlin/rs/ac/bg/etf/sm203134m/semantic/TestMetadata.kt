@@ -7,4 +7,5 @@ class TestMetadata {
     var requiresObjectMapper = false
 
     var requiresSelenium = false
+    var requiresSeleniumBy = false
 }

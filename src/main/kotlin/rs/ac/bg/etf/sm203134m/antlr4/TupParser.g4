@@ -52,6 +52,7 @@ assertResponseBodyContainsField: ASSERT THAT LAST RESPONSE BODY HAS FIELD COLON 
 // ui tests
 // Open web page: "${URL}".
 openWebPage: OPEN WEB PAGE COLON STRING DOT;
+clickElementWithXPath: CLICK ON ELEMENT WITH XPATH COLON STRING DOT;
 
 // assertions
 // Assert that current page is "${URL}".

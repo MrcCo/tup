@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.edge.EdgeDriver
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
@@ -65,6 +66,12 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
             import ${WebDriverManager::class.qualifiedName};
             import ${WebDriver::class.qualifiedName};
             import ${EdgeDriver::class.qualifiedName};
+        """.trimIndent()
+    }
+
+    if(metadata.requiresSeleniumBy) {
+        imports += """
+            import ${By::class.qualifiedName};
         """.trimIndent()
     }
 

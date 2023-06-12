@@ -29,6 +29,10 @@ OPEN: O P E N;
 WEB: W E B;
 PAGE: P A G E;
 CURRENT: C U R R E N T;
+CLICK: C L I C K;
+ON: O N;
+ELEMENT: E L E M E N T;
+XPATH: X DASH P A T H;
 
 // general
 INTEGER: [0-9]+ ;
@@ -44,6 +48,7 @@ RIGHT_CURLY_BRACKET: '}';
 COLON: ':';
 COMMA: ',';
 DOT: '.';
+DASH: '-';
 
 // case insensitivity
 fragment A : [aA]; // match either an 'a' or 'A'

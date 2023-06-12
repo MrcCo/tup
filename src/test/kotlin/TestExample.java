@@ -3,6 +3,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
@@ -25,6 +26,7 @@ public class TestExample {
     void test() {
         driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
         String title = driver.getTitle();
+        driver.findElement(By.xpath("path")).click();
 
 
         // Verify
