@@ -82,7 +82,7 @@ class SemanticAnalyzer : TupParserBaseListener() {
         metadata.requiresObjectMapper = true
     }
 
-    override fun enterClickElementWithXPath(ctx: TupParser.ClickElementWithXPathContext?) {
+    override fun enterClickOnElementWithXPath(ctx: TupParser.ClickOnElementWithXPathContext?) {
 
         metadata.requiresSeleniumBy = true
 

@@ -1,10 +1,10 @@
 package rs.ac.bg.etf.sm203134m.generation.generators.api.assertions
 
 import org.junit.jupiter.api.Assertions
-import rs.ac.bg.etf.sm203134m.antlr4.TupParser.AssertResponseBodyContainsFieldContext
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.generation.generators.SymbolTable
 
-fun AssertResponseBodyContainsFieldContext.generateOnEntry(symbolTable: SymbolTable): String {
+fun TupParser.AssertResponseBodyContainsFieldContext.generateOnEntry(symbolTable: SymbolTable): String {
 
 
     val responseFieldName = symbolTable.createNextResponseField()
