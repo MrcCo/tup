@@ -2,6 +2,7 @@ package rs.ac.bg.etf.sm203134m.semantic
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
+import rs.ac.bg.etf.sm203134m.semantic.results.SemanticAnalysisResults
 
 class SemanticAnalyzer : TupParserBaseListener() {
 

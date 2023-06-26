@@ -1,10 +1,12 @@
-package rs.ac.bg.etf.sm203134m.semantic
+package rs.ac.bg.etf.sm203134m.semantic.results
+
+import rs.ac.bg.etf.sm203134m.semantic.ValidationResponse
 
 class SemanticAnalysisResults {
 
-    private var isCorrect = true
-    private var warnings = ""
-    private var errors = ""
+    var isCorrect = true
+    var warnings = mutableListOf<SemanticWarning>()
+    var errors =  mutableListOf<SemanticError>()
 
 
     private fun incorrect() {
@@ -12,11 +14,11 @@ class SemanticAnalysisResults {
     }
 
     private fun addWarning(warning: String) {
-        warnings += ";${warning}"
+        warnings += SemanticWarning(warning)
     }
 
     private fun addError(error: String) {
-        errors += ";${error}"
+        errors += SemanticError(error)
     }
 
     fun appendValidationResponse(response: ValidationResponse) {
@@ -28,6 +30,5 @@ class SemanticAnalysisResults {
     override fun toString(): String {
         return "SemanticAnalysisResults(isCorrect=$isCorrect, warnings='$warnings', errors='$errors')"
     }
-
 
 }
