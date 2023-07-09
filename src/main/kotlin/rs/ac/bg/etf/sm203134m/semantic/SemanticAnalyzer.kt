@@ -3,20 +3,22 @@ package rs.ac.bg.etf.sm203134m.semantic
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 import rs.ac.bg.etf.sm203134m.semantic.results.SemanticAnalysisResults
+import rs.ac.bg.etf.sm203134m.semantic.results.SemanticError
 
 class SemanticAnalyzer : TupParserBaseListener() {
 
     val results = SemanticAnalysisResults()
     val metadata = TestMetadata()
-    private var hasPreviousRequests = false
 
 
     // validates for available test types
     override fun enterTestType(ctx: TupParser.TestTypeContext) {
         if (ctx.API() != null) {
             metadata.requiresOkhttp = true
+            metadata.testType = "api"
         } else if(ctx.UI() != null) {
             metadata.requiresSelenium = true
+            metadata.testType = "ui"
         }
     }
 
@@ -24,7 +26,14 @@ class SemanticAnalyzer : TupParserBaseListener() {
     // todo - forbid request steps in ui tests
     // validates if http method is valid
     override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
-        hasPreviousRequests = true
+
+        if(metadata.testType!!.equals("ui", true)) {
+            results.appendValidationResponse(
+                ValidationResponse(SemanticError("You cannot perform http requests in UI tests!"))
+            )
+        }
+
+        metadata.hasPreviousRequests = true
     }
 
     override fun enterHttpMethod(ctx: TupParser.HttpMethodContext?) {
@@ -45,13 +54,9 @@ class SemanticAnalyzer : TupParserBaseListener() {
 
     // response code validation step validation
     override fun enterAssertResponseCode(ctx: TupParser.AssertResponseCodeContext?) {
-        if (!hasPreviousRequests) {
+        if (!metadata.hasPreviousRequests) {
             results.appendValidationResponse(
-                ValidationResponse(
-                    false,
-                    "",
-                    "You cannot perform assertions without previously creating any requests!"
-                )
+                ValidationResponse(SemanticError("You cannot perform assertions without previously creating any requests!"))
             )
         } else {
             ctx?.let { results.appendValidationResponse(it.validate()) }
@@ -59,25 +64,17 @@ class SemanticAnalyzer : TupParserBaseListener() {
     }
 
     override fun enterAssertResponseBody(ctx: TupParser.AssertResponseBodyContext?) {
-        if (!hasPreviousRequests) {
+        if (!metadata.hasPreviousRequests) {
             results.appendValidationResponse(
-                ValidationResponse(
-                    false,
-                    "",
-                    "You cannot perform assertions without previously creating any requests!"
-                )
+                ValidationResponse(SemanticError("You cannot perform assertions without previously creating any requests!"))
             )
         }
     }
 
     override fun enterAssertResponseBodyContainsField(ctx: TupParser.AssertResponseBodyContainsFieldContext?) {
-        if (!hasPreviousRequests) {
+        if (!metadata.hasPreviousRequests) {
             results.appendValidationResponse(
-                ValidationResponse(
-                    false,
-                    "",
-                    "You cannot perform assertions without previously creating any requests!"
-                )
+                ValidationResponse(SemanticError("You cannot perform assertions without previously creating any requests!"))
             )
         }
         metadata.requiresObjectMapper = true

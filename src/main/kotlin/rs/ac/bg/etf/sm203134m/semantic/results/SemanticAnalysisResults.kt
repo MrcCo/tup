@@ -13,18 +13,18 @@ class SemanticAnalysisResults {
         isCorrect = false
     }
 
-    private fun addWarning(warning: String) {
-        warnings += SemanticWarning(warning)
+    private fun addWarning(warning: SemanticWarning) {
+        warnings += warning
     }
 
-    private fun addError(error: String) {
-        errors += SemanticError(error)
+    private fun addError(error: SemanticError) {
+        errors += error
     }
 
     fun appendValidationResponse(response: ValidationResponse) {
         if(!response.isValid) incorrect()
-        if(response.warning.isNotEmpty()) addWarning(response.warning)
-        if(response.error.isNotEmpty()) addError(response.error)
+        if(response.warning != null) addWarning(response.warning)
+        if(response.error != null) addError(response.error)
     }
 
     override fun toString(): String {

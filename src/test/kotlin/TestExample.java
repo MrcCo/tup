@@ -8,29 +8,29 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
 public class TestExample {
-
-    private WebDriver driver;
-
-    @BeforeEach
-    void setUp() {
-        WebDriverManager.edgedriver().setup();
-        driver = new EdgeDriver();
-    }
-
-    @AfterEach
-    void tearDown() {
-        driver.close();
-    }
-
-    @Test
-    void test() {
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
-        String title = driver.getTitle();
-        driver.findElement(By.xpath("path")).click();
-
-
-        // Verify
-        Assertions.assertEquals(title, "Selenium WebDriver");
-    }
+//
+//    private WebDriver driver;
+//
+//    @BeforeEach
+//    void setUp() {
+//        WebDriverManager.edgedriver().setup();
+//        driver = new EdgeDriver();
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//        driver.close();
+//    }
+//
+//    @Test
+//    void test() {
+////        driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
+////        String title = driver.getTitle();
+////        driver.findElement(By.xpath("path")).click();
+////
+////
+////        // Verify
+////        Assertions.assertEquals(title, "Selenium WebDriver");
+//    }
 
 }

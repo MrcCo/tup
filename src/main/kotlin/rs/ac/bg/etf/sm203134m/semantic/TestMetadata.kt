@@ -8,4 +8,8 @@ class TestMetadata {
 
     var requiresSelenium = false
     var requiresSeleniumBy = false
+
+    var testType: String? = null
+    var hasPreviousRequests = false
+
 }

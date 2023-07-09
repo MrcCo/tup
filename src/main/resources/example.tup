@@ -1,6 +1,5 @@
 name: ExampleTest.
-description: "This an example
-sdsad".
+description: "This an example sdsad".
 type: api.
 steps:
   Execute an api request to: "https://api.agify.io/?name=jack".
