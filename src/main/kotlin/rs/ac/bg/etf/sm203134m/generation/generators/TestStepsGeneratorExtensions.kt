@@ -2,21 +2,30 @@ package rs.ac.bg.etf.sm203134m.generation.generators
 
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.generation.generators.setup.SetupGenerator
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
-
+// todo refactor me plis
 fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
 
     val setup = SetupGenerator(metadata).generate()
-    var methodSignature = "\n\t@${Test::class.simpleName} \n\tvoid test()"
-
-    if(metadata.requiresOkhttp) {
-        methodSignature +=  " throws IOException "
+    var methodAnnotation = if (metadata.requiresSelenium) {
+        "\n\t@${ParameterizedTest::class.simpleName}\n @${ValueSource::class.simpleName}(strings = {${metadata.browserRequirements.filter { it.value }.keys.joinToString { '"' + it + '"'}}})\n"
+    } else {
+        "\n\t@${Test::class.simpleName}\n"
+    }
+    var methodSignature = methodAnnotation + if (metadata.requiresSelenium)
+        "\n\tvoid test(String browserName)"
+    else
+        "\n\tvoid test()"
+    if (metadata.requiresOkhttp) {
+        methodSignature += " throws IOException "
     }
     methodSignature += "{\n\n"
-    return setup + methodSignature
+    return setup + methodSignature + if(metadata.requiresSelenium) "\t\tbrowserSetup(browserName);\n" else "";
 }
 
 fun TupParser.TestStepsContext.generateOnExit(symbolTable: SymbolTable): String {

@@ -11,9 +11,14 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
+import org.openqa.selenium.firefox.GeckoDriverInfo
+import org.openqa.selenium.safari.SafariDriver
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 import java.io.IOException
@@ -38,6 +43,8 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
 
     if(metadata.requiresSelenium) {
         imports += "\nimport ${AfterEach::class.qualifiedName!!};"
+        imports += "\nimport ${ParameterizedTest::class.qualifiedName!!};"
+        imports += "\nimport ${ValueSource::class.qualifiedName!!};"
     }
 
     imports += "\n"
@@ -66,6 +73,9 @@ fun generateImportsFromMetadata(metadata: TestMetadata): String {
             import ${WebDriverManager::class.qualifiedName};
             import ${WebDriver::class.qualifiedName};
             import ${EdgeDriver::class.qualifiedName};
+            import ${ChromeDriver::class.qualifiedName};
+            import ${GeckoDriverInfo::class.qualifiedName};
+            import ${SafariDriver::class.qualifiedName};
         """.trimIndent()
     }
 

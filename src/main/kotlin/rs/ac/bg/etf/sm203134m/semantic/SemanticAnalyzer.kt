@@ -68,7 +68,10 @@ class SemanticAnalyzer : TupParserBaseListener() {
     override fun enterBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
 
         metadata.requiresSelenium = true
-
+        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
+        metadata.browserRequirements.keys.forEach {
+            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
+        }
     }
 
     override fun enterOpenWebPage(ctx: TupParser.OpenWebPageContext?) {

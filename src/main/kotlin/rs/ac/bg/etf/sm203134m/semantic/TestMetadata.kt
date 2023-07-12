@@ -9,7 +9,13 @@ class TestMetadata {
     var requiresSelenium = false
     var requiresSeleniumBy = false
 
-    var testType: String? = null
+    var browserRequirements = mutableMapOf(
+        Pair("edge", true),
+        Pair("chrome", false),
+        Pair("safari", false),
+        Pair("firefox", false)
+    )
+
     var hasPreviousRequests = false
 
 }
