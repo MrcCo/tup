@@ -11,29 +11,12 @@ class SemanticAnalyzer : TupParserBaseListener() {
     val metadata = TestMetadata()
 
 
-    // validates for available test types
-    override fun enterTestType(ctx: TupParser.TestTypeContext) {
-        if (ctx.API() != null) {
-            metadata.requiresOkhttp = true
-            metadata.testType = "api"
-        } else if(ctx.UI() != null) {
-            metadata.requiresSelenium = true
-            metadata.testType = "ui"
-        }
-    }
-
     // request step validation
-    // todo - forbid request steps in ui tests
-    // validates if http method is valid
     override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
 
-        if(metadata.testType!!.equals("ui", true)) {
-            results.appendValidationResponse(
-                ValidationResponse(SemanticError("You cannot perform http requests in UI tests!"))
-            )
-        }
-
+        metadata.requiresOkhttp = true
         metadata.hasPreviousRequests = true
+
     }
 
     override fun enterHttpMethod(ctx: TupParser.HttpMethodContext?) {
@@ -80,8 +63,21 @@ class SemanticAnalyzer : TupParserBaseListener() {
         metadata.requiresObjectMapper = true
     }
 
+    // todo validate available browsers
+    // todo figure out how to add a warning about browser definition not needed
+    override fun enterBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
+
+        metadata.requiresSelenium = true
+
+    }
+
+    override fun enterOpenWebPage(ctx: TupParser.OpenWebPageContext?) {
+        metadata.requiresSelenium = true
+    }
+
     override fun enterClickOnElementWithXPath(ctx: TupParser.ClickOnElementWithXPathContext?) {
 
+        metadata.requiresSelenium = true
         metadata.requiresSeleniumBy = true
 
     }

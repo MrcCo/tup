@@ -1,7 +1,12 @@
 package rs.ac.bg.etf.sm203134m.generation.generators
 
 class SymbolTable {
+
     var testClassName = ""
+
+    val client = "client"
+    val driver = "driver"
+
     val requests = mutableListOf<String>()
     val responses = mutableListOf<String>()
     val responseCodes = mutableListOf<String>()

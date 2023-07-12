@@ -9,7 +9,6 @@ import rs.ac.bg.etf.sm203134m.generation.generators.api.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnExit
 import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnEntry
-import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnExit
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener() {
@@ -28,14 +27,6 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
 
     override fun enterTestDescription(ctx: TupParser.TestDescriptionContext?) {
         code += ctx?.generateOnEntry()
-    }
-
-    override fun enterTestType(ctx: TupParser.TestTypeContext?) {
-        code += ctx?.generateOnEntry(metadata)
-    }
-
-    override fun exitTestType(ctx: TupParser.TestTypeContext?) {
-        code += ctx?.generateOnExit(metadata)
     }
 
     override fun enterTestSteps(ctx: TupParser.TestStepsContext?) {
