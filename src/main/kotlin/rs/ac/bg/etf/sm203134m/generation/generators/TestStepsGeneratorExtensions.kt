@@ -12,10 +12,10 @@ import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
 
     val setup = SetupGenerator(metadata).generate()
-    var methodAnnotation = if (metadata.requiresSelenium) {
-        "\n\t@${ParameterizedTest::class.simpleName}\n @${ValueSource::class.simpleName}(strings = {${metadata.browserRequirements.filter { it.value }.keys.joinToString { '"' + it + '"'}}})\n"
+    val methodAnnotation = if (metadata.requiresSelenium) {
+        "\n${Commons.methodAnnotation(ParameterizedTest::class.simpleName!!)} @${ValueSource::class.simpleName}(strings = {${metadata.browserRequirements.filter { it.value }.keys.joinToString { '"' + it + '"'}}})\n"
     } else {
-        "\n\t@${Test::class.simpleName}\n"
+        "\n${Commons.methodAnnotation(Test::class.simpleName!!)}"
     }
     var methodSignature = methodAnnotation + if (metadata.requiresSelenium)
         "\n\tvoid test(String browserName)"

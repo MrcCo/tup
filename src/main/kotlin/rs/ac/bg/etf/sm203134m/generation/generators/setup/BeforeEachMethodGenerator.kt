@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
 import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.edge.EdgeDriver
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 fun generateBeforeEachMethod(metadata: TestMetadata): String {
@@ -11,7 +12,9 @@ fun generateBeforeEachMethod(metadata: TestMetadata): String {
     if(!metadata.requiresOkhttp && !metadata.requiresObjectMapper)
         return ""
 
-    var result = "\t@${BeforeEach::class.simpleName}\n\tvoid setup() {\n"
+
+    var result = Commons.methodAnnotation(BeforeEach::class.simpleName!!) +
+            Commons.voidMethodDefinition("setup", emptyMap())
     if (metadata.requiresOkhttp) {
         result += "\t\tclient = new ${OkHttpClient::class.simpleName}();\n"
     }

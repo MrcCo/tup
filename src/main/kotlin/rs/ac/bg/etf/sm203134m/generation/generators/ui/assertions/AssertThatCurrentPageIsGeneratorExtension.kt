@@ -1,8 +1,8 @@
 package rs.ac.bg.etf.sm203134m.generation.generators.ui.assertions
 
-import org.junit.jupiter.api.Assertions
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons
 
 fun TupParser.AssertThatCurrentPageIsContext.generateOnEntry(): String {
-    return "\t\t${Assertions::class.simpleName}.assertEquals(${STRING()}, driver.getCurrentUrl());\n"
+    return Commons.assertEqual(STRING().text, "driver.getCurrentUrl()")
 }

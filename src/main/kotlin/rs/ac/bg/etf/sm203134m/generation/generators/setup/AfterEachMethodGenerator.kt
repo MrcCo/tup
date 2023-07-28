@@ -6,14 +6,16 @@ import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 fun generateAfterEachMethod(metadata: TestMetadata): String {
 
-    if(metadata.requiresSelenium){
-        return """         
+    if (!metadata.requiresSelenium) {
+        return ""
+    }
+
+    return """         
 ${'\t'}@${AfterEach::class.simpleName}
 ${'\t'}void teardown() {
 ${'\t'}${'\t'}driver.close();
 ${'\t'}}
 """
-    }
 
-    return ""
+
 }

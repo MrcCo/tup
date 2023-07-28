@@ -59,7 +59,7 @@ fun TupParser.ExecuteApiRequestContext.hasHeaders(): Boolean {
             && this.requestHeaders().headerPair().isNotEmpty()
 }
 
-fun TupParser.ExecuteApiRequestContext     .getRequestHeadersString(): String {
+fun TupParser.ExecuteApiRequestContext.getRequestHeadersString(): String {
 
     return this.requestHeaders()
         .headerPair().joinToString(",") {

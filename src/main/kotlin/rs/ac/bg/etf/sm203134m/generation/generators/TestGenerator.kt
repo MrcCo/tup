@@ -20,6 +20,7 @@ import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.GeckoDriverInfo
 import org.openqa.selenium.safari.SafariDriver
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.importStatement
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 import java.io.IOException
 
@@ -35,54 +36,47 @@ fun TupParser.TestContext.generateOnExit(): String {
 }
 
 fun generateImportsFromMetadata(metadata: TestMetadata): String {
-    var imports = """
-        import ${Test::class.qualifiedName!!};
-        import ${BeforeEach::class.qualifiedName!!};
-        import ${Assertions::class.qualifiedName!!};
-        """.trimIndent()
+    var imports =
+        importStatement(Test::class.qualifiedName!!) +
+                importStatement(BeforeEach::class.qualifiedName!!) +
+                importStatement(Assertions::class.qualifiedName!!)
 
-    if(metadata.requiresSelenium) {
-        imports += "\nimport ${AfterEach::class.qualifiedName!!};"
-        imports += "\nimport ${ParameterizedTest::class.qualifiedName!!};"
-        imports += "\nimport ${ValueSource::class.qualifiedName!!};"
+
+
+    if (metadata.requiresSelenium) {
+
+        imports += importStatement(AfterEach::class.qualifiedName!!) +
+                importStatement(ParameterizedTest::class.qualifiedName!!) +
+                importStatement(ValueSource::class.qualifiedName!!)
     }
 
-    imports += "\n"
+    if (metadata.requiresObjectMapper) {
 
-    if(metadata.requiresObjectMapper) {
-        imports += "\nimport ${ObjectMapper::class.qualifiedName};\n"
+        imports += importStatement(ObjectMapper::class.qualifiedName!!)
     }
 
-    imports += "\n"
+    if (metadata.requiresOkhttp) {
 
-    if(metadata.requiresOkhttp) {
-        imports += """
-            import ${Headers::class.qualifiedName!!};
-            import ${MediaType::class.qualifiedName!!};
-            import ${OkHttpClient::class.qualifiedName!!};
-            import ${Request::class.qualifiedName!!};
-            import ${RequestBody::class.qualifiedName!!};
-            
-            import ${IOException::class.qualifiedName!!};
-        """.trimIndent()
+        imports += importStatement(Headers::class.qualifiedName!!) +
+                importStatement(MediaType::class.qualifiedName!!) +
+                importStatement(OkHttpClient::class.qualifiedName!!) +
+                importStatement(Request::class.qualifiedName!!) +
+                importStatement(RequestBody::class.qualifiedName!!) +
+                importStatement(IOException::class.qualifiedName!!)
     }
 
-    // todo - for now only support edge
-    if(metadata.requiresSelenium) {
-        imports += """
-            import ${WebDriverManager::class.qualifiedName};
-            import ${WebDriver::class.qualifiedName};
-            import ${EdgeDriver::class.qualifiedName};
-            import ${ChromeDriver::class.qualifiedName};
-            import ${GeckoDriverInfo::class.qualifiedName};
-            import ${SafariDriver::class.qualifiedName};
-        """.trimIndent()
+    if (metadata.requiresSelenium) {
+
+        imports += importStatement(WebDriverManager::class.qualifiedName!!) +
+                importStatement(WebDriver::class.qualifiedName!!) +
+                importStatement(EdgeDriver::class.qualifiedName!!) +
+                importStatement(ChromeDriver::class.qualifiedName!!) +
+                importStatement(GeckoDriverInfo::class.qualifiedName!!) +
+                importStatement(SafariDriver::class.qualifiedName!!)
     }
 
-    if(metadata.requiresSeleniumBy) {
-        imports += """
-            import ${By::class.qualifiedName};
-        """.trimIndent()
+    if (metadata.requiresSeleniumBy) {
+        imports += importStatement(By::class.qualifiedName!!)
     }
 
     return imports

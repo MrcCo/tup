@@ -65,14 +65,14 @@ class SemanticAnalyzer : TupParserBaseListener() {
 
     // todo validate available browsers
     // todo figure out how to add a warning about browser definition not needed
-    override fun enterBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
-
-        metadata.requiresSelenium = true
-        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
-        metadata.browserRequirements.keys.forEach {
-            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
-        }
-    }
+//    override fun enterBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
+//
+//        metadata.requiresSelenium = true
+//        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
+//        metadata.browserRequirements.keys.forEach {
+//            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
+//        }
+//    }
 
     override fun enterOpenWebPage(ctx: TupParser.OpenWebPageContext?) {
         metadata.requiresSelenium = true
