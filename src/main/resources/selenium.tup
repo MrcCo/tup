@@ -1,13 +1,13 @@
 name: SeleniumTest.
 description: "This an example using selenium".
-browser: safari chrome.
+browser: safari, chrome, benis.
 steps:
   Open web page: "https://bonigarcia.dev/selenium-webdriver-java/".
   Assert that current page is "https://bonigarcia.dev/selenium-webdriver-java/".
-    Execute an api request to: "https://api.agify.io/?name=jack".
-    Assert that last response has status code: 200.
-    Assert that last response body has field: "name" with value: "jack".
-    Execute an api request to: "https://api.agify.io/?name=marko".
-    Assert that last response has status code: 200.
-    Assert that last response body has field: "name" with value: "marko".
-    Assert that last response body has field: "name" with value: "marko".
+  Execute an api request to: "https://api.agify.io/?name=jack".
+  Assert that last response has status code: 200.
+  Assert that last response body has field: "name" with value: "jack".
+  Execute an api request to: "https://api.agify.io/?name=marko".
+  Assert that last response has status code: 200.
+  Assert that last response body has field: "name" with value: "marko".
+  Assert that title is "Title".

@@ -18,4 +18,7 @@ class TestMetadata {
 
     var hasPreviousRequests = false
 
+    fun formattedBrowserRequirements(): String {
+        return browserRequirements.filter { it.value }.keys.joinToString { '"' + it + '"' }
+    }
 }

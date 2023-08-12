@@ -5,27 +5,34 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.closeBraces
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.methodAnnotation
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.methodAnnotationWithArguments
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.openBracesInLine
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.voidMethodDefinition
 import rs.ac.bg.etf.sm203134m.generation.generators.setup.SetupGenerator
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 // todo refactor me plis
 fun TupParser.TestStepsContext.generateOnEntry(metadata: TestMetadata): String {
 
-    val setup = SetupGenerator(metadata).generate()
-    val methodAnnotation = if (metadata.requiresSelenium) {
-        "\n${Commons.methodAnnotation(ParameterizedTest::class.simpleName!!)} @${ValueSource::class.simpleName}(strings = {${metadata.browserRequirements.filter { it.value }.keys.joinToString { '"' + it + '"'}}})\n"
-    } else {
-        "\n${Commons.methodAnnotation(Test::class.simpleName!!)}"
-    }
-    var methodSignature = methodAnnotation + if (metadata.requiresSelenium)
-        "\n\tvoid test(String browserName)"
-    else
-        "\n\tvoid test()"
-    if (metadata.requiresOkhttp) {
-        methodSignature += " throws IOException "
-    }
-    methodSignature += "{\n\n"
-    return setup + methodSignature + if(metadata.requiresSelenium) "\t\tbrowserSetup(browserName);\n" else "";
+    return SetupGenerator(metadata).generate() +
+            if (metadata.requiresSelenium) {
+                methodAnnotation(ParameterizedTest::class.simpleName!!) +
+                        methodAnnotationWithArguments(
+                            ValueSource::class.simpleName!!,
+                            mapOf(Pair("strings", metadata.formattedBrowserRequirements()))
+                        )
+            } else {
+                methodAnnotation(Test::class.simpleName!!)
+            } +
+            voidMethodDefinition(
+                "test",
+                if (metadata.requiresSelenium) mapOf(Pair("String", "browserName")) else emptyMap(),
+                if (metadata.requiresOkhttp) "IOException" else ""
+            ) +
+            if (metadata.requiresSelenium) "\t\tbrowserSetup(browserName);\n" else ""
+
 }
 
 fun TupParser.TestStepsContext.generateOnExit(symbolTable: SymbolTable): String {
@@ -33,6 +40,6 @@ fun TupParser.TestStepsContext.generateOnExit(symbolTable: SymbolTable): String 
     symbolTable.responses.forEach {
         closeStatements += "\t\t$it.close();\n"
     }
-    closeStatements += "\t}"
+    closeStatements += closeBraces()
     return closeStatements
 }

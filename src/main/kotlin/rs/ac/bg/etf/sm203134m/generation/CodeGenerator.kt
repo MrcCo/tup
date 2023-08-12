@@ -62,4 +62,8 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
         code += ctx?.generateOnEntry()
     }
 
+    override fun enterAssertThatTitleIs(ctx: TupParser.AssertThatTitleIsContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
 }

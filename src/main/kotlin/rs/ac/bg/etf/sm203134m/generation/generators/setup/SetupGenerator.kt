@@ -8,6 +8,6 @@ class SetupGenerator(private val metadata: TestMetadata) {
         return generateTestFields(metadata) +
                 generateBeforeEachMethod(metadata) +
                 generateBrowserSetupMethod(metadata) +
-                generateAfterEachMethod(metadata)
+                generateAfterEachMethod(metadata) + "\n"
     }
 }

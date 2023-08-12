@@ -1,9 +1,11 @@
 package rs.ac.bg.etf.sm203134m.semantic
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
+import rs.ac.bg.etf.sm203134m.antlr4.TupParser.OpenWebPageContext
 import rs.ac.bg.etf.sm203134m.antlr4.TupParserBaseListener
 import rs.ac.bg.etf.sm203134m.semantic.results.SemanticAnalysisResults
 import rs.ac.bg.etf.sm203134m.semantic.results.SemanticError
+import rs.ac.bg.etf.sm203134m.semantic.results.SemanticWarning
 
 class SemanticAnalyzer : TupParserBaseListener() {
 
@@ -63,16 +65,25 @@ class SemanticAnalyzer : TupParserBaseListener() {
         metadata.requiresObjectMapper = true
     }
 
-    // todo validate available browsers
-    // todo figure out how to add a warning about browser definition not needed
-//    override fun enterBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
-//
-//        metadata.requiresSelenium = true
-//        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
-//        metadata.browserRequirements.keys.forEach {
-//            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
-//        }
-//    }
+    override fun enterBrowserList(ctx: TupParser.BrowserListContext?) {
+
+        ctx.let { results.appendValidationResponse(it!!.validate()) }
+
+        metadata.requiresSelenium = true
+        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
+        metadata.browserRequirements.keys.forEach {
+            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
+        }
+
+    }
+
+    override fun exitBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
+
+        ctx.let { results.appendValidationResponse(it!!.validate()) }
+
+    }
+
+
 
     override fun enterOpenWebPage(ctx: TupParser.OpenWebPageContext?) {
         metadata.requiresSelenium = true
@@ -82,6 +93,13 @@ class SemanticAnalyzer : TupParserBaseListener() {
 
         metadata.requiresSelenium = true
         metadata.requiresSeleniumBy = true
+
+    }
+
+    override fun enterAssertThatTitleIs(ctx: TupParser.AssertThatTitleIsContext?) {
+
+        metadata.requiresSelenium = true
+
 
     }
 
