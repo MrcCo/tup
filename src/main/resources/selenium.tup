@@ -1,6 +1,6 @@
 name: SeleniumTest.
 description: "This an example using selenium".
-browser: safari, chrome, benis.
+browser: safari, chrome.
 steps:
   Open web page: "https://bonigarcia.dev/selenium-webdriver-java/".
   Assert that current page is "https://bonigarcia.dev/selenium-webdriver-java/".

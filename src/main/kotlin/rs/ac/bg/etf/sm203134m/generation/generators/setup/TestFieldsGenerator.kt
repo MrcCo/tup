@@ -1,22 +1,26 @@
 package rs.ac.bg.etf.sm203134m.generation.generators.setup
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.bonigarcia.seljup.SeleniumJupiter
 import okhttp3.OkHttpClient
-import org.openqa.selenium.WebDriver
-import rs.ac.bg.etf.sm203134m.generation.generators.Commons.fieldDefinition
+import org.junit.jupiter.api.extension.RegisterExtension
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.annotation
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.staticFieldDefinition
+import rs.ac.bg.etf.sm203134m.generation.generators.Commons.staticFieldInitialization
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 fun generateTestFields(metadata: TestMetadata): String {
-    var result = "";
+    var result = ""
 
     if(metadata.requiresOkhttp)
-        result += fieldDefinition(OkHttpClient::class.simpleName!!, "client")
+        result += staticFieldDefinition(OkHttpClient::class.simpleName!!, "client")
 
     if (metadata.requiresObjectMapper)
-        result += fieldDefinition(ObjectMapper::class.simpleName!!, "objectMapper")
+        result += staticFieldDefinition(ObjectMapper::class.simpleName!!, "objectMapper")
 
     if(metadata.requiresSelenium)
-        result += fieldDefinition(WebDriver::class.simpleName!!, "driver")
+        result += annotation(RegisterExtension::class.simpleName!!) +
+                staticFieldInitialization(SeleniumJupiter::class.simpleName!!, "seleniumJupiter", "new ${SeleniumJupiter::class.simpleName!!}()")
 
     return result
 

@@ -8,6 +8,7 @@ import rs.ac.bg.etf.sm203134m.generation.generators.ui.assertions.generateOnEntr
 import rs.ac.bg.etf.sm203134m.generation.generators.api.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnExit
+import rs.ac.bg.etf.sm203134m.generation.generators.setup.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnEntry
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
@@ -18,11 +19,11 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
     val symbolTable = SymbolTable()
 
     override fun enterTest(ctx: TupParser.TestContext?) {
-        code += ctx?.generateOnEntry(metadata, symbolTable)
+        code += ctx?.generateOnEntry(metadata)
     }
 
-    override fun exitTest(ctx: TupParser.TestContext?) {
-        code += ctx?.generateOnExit()
+    override fun enterTestName(ctx: TupParser.TestNameContext?) {
+        code += ctx?.generateOnEntry(symbolTable)
     }
 
     override fun enterTestDescription(ctx: TupParser.TestDescriptionContext?) {
@@ -31,10 +32,6 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
 
     override fun enterTestSteps(ctx: TupParser.TestStepsContext?) {
         code += ctx?.generateOnEntry(metadata)
-    }
-
-    override fun exitTestSteps(ctx: TupParser.TestStepsContext?) {
-        code += ctx?.generateOnExit(symbolTable)
     }
 
     override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
@@ -64,6 +61,14 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
 
     override fun enterAssertThatTitleIs(ctx: TupParser.AssertThatTitleIsContext?) {
         code += ctx?.generateOnEntry()
+    }
+
+    override fun exitTestSteps(ctx: TupParser.TestStepsContext?) {
+        code += ctx?.generateOnExit(symbolTable)
+    }
+
+    override fun exitTest(ctx: TupParser.TestContext?) {
+        code += ctx?.generateOnExit()
     }
 
 }

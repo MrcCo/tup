@@ -13,9 +13,15 @@ object Commons {
         return "\t/* $comment */\n"
     }
 
-    fun fieldDefinition(fieldType: String, fieldName: String): String {
-        return "\tprivate $fieldType $fieldName;\n"
+
+    fun staticFieldDefinition(fieldType: String, fieldName: String): String {
+        return "\tstatic $fieldType $fieldName;\n"
     }
+
+    fun staticFieldInitialization(fieldType: String, fieldName: String, initialValue: String): String {
+        return "\tstatic $fieldType $fieldName = $initialValue;\n"
+    }
+
 
     fun unfinishedVariableAssignment(variableName: String): String {
         return "\t\tvar $variableName = "
@@ -26,20 +32,16 @@ object Commons {
     }
 
 
-    fun methodAnnotation(annotationName: String): String {
+    fun annotation(annotationName: String): String {
         return "\t@${annotationName}\n"
     }
 
-    fun methodAnnotationWithArguments(annotationName: String, arguments: Map<String, String>): String {
-        return "\t@${annotationName}(${arguments.map { (k,v) -> "$k={$v}" }.joinToString()})\n"
+    fun staticVoidMethodDefinition(methodName: String, arguments: Map<String, String>): String {
+        return "\tstatic void $methodName(${arguments.map { (k,v) -> "$k $v" }.joinToString()}) {\n"
     }
 
-    fun voidMethodDefinition(methodName: String, arguments: Map<String, String>): String {
-        return "\tvoid $methodName(${arguments.map { (k,v) -> "$k $v" }.joinToString()}) {\n"
-    }
-
-    fun voidMethodDefinition(methodName: String, arguments: Map<String, String>, exception:String?): String {
-        return "\tvoid $methodName(${arguments.map { (k,v) -> "$k $v" }.joinToString()})" + if(exception != null) " throws $exception" else { "" }+ " {\n"
+    fun staticVoidMethodDefinition(methodName: String, arguments: Map<String, String>, exception:String?): String {
+        return "\tvoid $methodName(${arguments.map { (k,v) -> "$k $v" }.joinToString()})" + if(exception != null) " throws $exception" else { "" } + " {\n"
     }
 
     fun requestBuilderURL(url: String): String {
@@ -55,7 +57,7 @@ object Commons {
     }
 
     fun requestBuilderBuild(): String {
-        return "\t\t\t.build();\n";
+        return "\t\t\t.build();\n"
     }
 
 

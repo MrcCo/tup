@@ -6,8 +6,6 @@ class SetupGenerator(private val metadata: TestMetadata) {
 
     fun generate(): String {
         return generateTestFields(metadata) +
-                generateBeforeEachMethod(metadata) +
-                generateBrowserSetupMethod(metadata) +
-                generateAfterEachMethod(metadata) + "\n"
+                generateBeforeAllMethod(metadata)
     }
 }

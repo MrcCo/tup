@@ -1,7 +1,6 @@
 package rs.ac.bg.etf.sm203134m.generation.generators.api
 
 import rs.ac.bg.etf.sm203134m.antlr4.TupParser
-import rs.ac.bg.etf.sm203134m.generation.generators.Commons
 import rs.ac.bg.etf.sm203134m.generation.generators.Commons.escapeSingleQuoteString
 import rs.ac.bg.etf.sm203134m.generation.generators.Commons.jsonRequestBody
 import rs.ac.bg.etf.sm203134m.generation.generators.Commons.requestBuilderBuild
@@ -22,9 +21,9 @@ fun TupParser.ExecuteApiRequestContext.generateOnEntry(symbolTable: SymbolTable)
             requestBuilderMethod(getRequestMethod(), jsonRequestBody(escapeSingleQuoteString(getRequestBodyString()))) +
             requestBuilderHeadersIfNecessary() +
             requestBuilderBuild() +
-            variableAssignment(response,"client.newCall($request).execute();\n") +
-            variableAssignment(symbolTable.createNextResponseCode(),"$response.code();\n") +
-            variableAssignment(symbolTable.createNextResponseBody(), "$response.body() != null ? $response.body().string() : \"\";\n\n")
+            variableAssignment(response,"client.newCall($request).execute()") +
+            variableAssignment(symbolTable.createNextResponseCode(),"$response.code()") +
+            variableAssignment(symbolTable.createNextResponseBody(), "$response.body() != null ? $response.body().string() : \"\"")
 }
 
 

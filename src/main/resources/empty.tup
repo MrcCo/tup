@@ -1,0 +1,5 @@
+Test name: UITest.
+Test description: "".
+Browser: chrome, safari.
+Test steps:
+  Open web page: "https://your.page.com".
