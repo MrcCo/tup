@@ -163,4 +163,12 @@
 
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub MrcCo Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/MrcCo/tup</url>
+        </repository>
+    </distributionManagement>
+
 </project>
