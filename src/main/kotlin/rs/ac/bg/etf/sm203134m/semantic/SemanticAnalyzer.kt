@@ -11,29 +11,12 @@ class SemanticAnalyzer : TupParserBaseListener() {
     val metadata = TestMetadata()
 
 
-    // validates for available test types
-    override fun enterTestType(ctx: TupParser.TestTypeContext) {
-        if (ctx.API() != null) {
-            metadata.requiresOkhttp = true
-            metadata.testType = "api"
-        } else if(ctx.UI() != null) {
-            metadata.requiresSelenium = true
-            metadata.testType = "ui"
-        }
-    }
-
     // request step validation
-    // todo - forbid request steps in ui tests
-    // validates if http method is valid
     override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
 
-        if(metadata.testType!!.equals("ui", true)) {
-            results.appendValidationResponse(
-                ValidationResponse(SemanticError("You cannot perform http requests in UI tests!"))
-            )
-        }
-
+        metadata.requiresOkhttp = true
         metadata.hasPreviousRequests = true
+
     }
 
     override fun enterHttpMethod(ctx: TupParser.HttpMethodContext?) {
@@ -80,9 +63,41 @@ class SemanticAnalyzer : TupParserBaseListener() {
         metadata.requiresObjectMapper = true
     }
 
+    override fun enterBrowserList(ctx: TupParser.BrowserListContext?) {
+
+        ctx.let { results.appendValidationResponse(it!!.validate()) }
+
+        metadata.requiresSelenium = true
+        val requiredBrowsers = ctx!!.IDENTIFIER().map { it.text }.toSet()
+        metadata.browserRequirements.keys.forEach {
+            metadata.browserRequirements[it] = requiredBrowsers.contains(it)
+        }
+
+    }
+
+    override fun exitBrowserDefinition(ctx: TupParser.BrowserDefinitionContext?) {
+
+        ctx.let { results.appendValidationResponse(it!!.validate()) }
+
+    }
+
+
+
+    override fun enterOpenWebPage(ctx: TupParser.OpenWebPageContext?) {
+        metadata.requiresSelenium = true
+    }
+
     override fun enterClickOnElementWithXPath(ctx: TupParser.ClickOnElementWithXPathContext?) {
 
+        metadata.requiresSelenium = true
         metadata.requiresSeleniumBy = true
+
+    }
+
+    override fun enterAssertThatTitleIs(ctx: TupParser.AssertThatTitleIsContext?) {
+
+        metadata.requiresSelenium = true
+
 
     }
 

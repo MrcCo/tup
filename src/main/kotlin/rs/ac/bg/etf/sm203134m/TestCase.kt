@@ -10,7 +10,7 @@ import rs.ac.bg.etf.sm203134m.semantic.results.SemanticAnalysisResults
 import rs.ac.bg.etf.sm203134m.semantic.SemanticAnalyzer
 import rs.ac.bg.etf.sm203134m.writer.CodeWriter
 
-class Test(originPath: String) {
+class TestCase(originPath: String) {
 
     val name: String
     val code: String

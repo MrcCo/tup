@@ -4,19 +4,19 @@ import rs.ac.bg.etf.sm203134m.semantic.results.SemanticAnalysisResults
 import rs.ac.bg.etf.sm203134m.semantic.results.SemanticError
 import java.lang.RuntimeException
 
-class TestSuite(val tests: List<Test>) {
+class TestSuite(val testCases: List<TestCase>) {
 
     val validationResult = SemanticAnalysisResults()
 
     init {
 
-        val testsWithSameNames = tests.groupingBy { it.name }.eachCount().filter { (_, v) -> v > 1 }
+        val testsWithSameNames = testCases.groupingBy { it.name }.eachCount().filter { (_, v) -> v > 1 }
         if(testsWithSameNames.isNotEmpty()) {
             validationResult.isCorrect = false
             validationResult.errors += SemanticError("Multiple tests have same names: ${testsWithSameNames.keys}")
         }
 
-        tests.forEach {
+        testCases.forEach {
             validationResult.isCorrect =  validationResult.isCorrect && it.semanticAnalysisResults.isCorrect
             validationResult.warnings += it.semanticAnalysisResults.warnings
             validationResult.errors += it.semanticAnalysisResults.errors
@@ -29,7 +29,7 @@ class TestSuite(val tests: List<Test>) {
             throw RuntimeException("Cannot write an incorrect test suit!")
         }
 
-        tests.forEach {
+        testCases.forEach {
             it.writeCode(path)
         }
     }

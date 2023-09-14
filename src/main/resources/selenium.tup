@@ -1,6 +1,8 @@
 name: SeleniumTest.
 description: "This an example using selenium".
-type: ui.
+browser: safari, chrome.
 steps:
   Open web page: "https://bonigarcia.dev/selenium-webdriver-java/".
-  Assert that current page is "https://bonigarcia.dev/selenium-webdriver-java/".
+  Fill textfield WITH X-PATH: '//*[@id="search"]' WITH VALUE "username".
+  Click on element with X-Path: '//*[@id="search_mini_form"]/div[2]/button'.
+  ASSERT THAT THERE IS 0 ELEMENTS WITH X-PATH: 'none'.

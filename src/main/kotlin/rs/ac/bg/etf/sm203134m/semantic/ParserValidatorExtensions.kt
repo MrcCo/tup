@@ -15,12 +15,16 @@ val RESERVED_STATUS_CODES = listOf(
             (400..418) + (421..426) + 428 + 429 + 431 + 451 +
             (500..508) + 510 + 511
 ).flatten()
+val SUPPORTED_BROWSERS = listOf(
+    "chrome", "edge", "safari", "firefox"
+)
 
 // response
 data class ValidationResponse(val isValid: Boolean, val warning: SemanticWarning?, val error: SemanticError?) {
     constructor() : this(true, null,  null)
     constructor(warning: SemanticWarning?): this(true, warning, null)
     constructor(error: SemanticError?): this(false, null, error)
+    constructor(warning: SemanticWarning?, error: SemanticError?): this(false, warning, error)
 }
 
 fun TupParser.HttpMethodContext.validate(): ValidationResponse {
@@ -80,3 +84,48 @@ fun TupParser.AssertResponseCodeContext.validate(): ValidationResponse {
         ValidationResponse()
     }
 }
+
+fun TupParser.BrowserListContext.validate(): ValidationResponse {
+
+    val browsers = this.IDENTIFIER().map { it.text.lowercase() }.toList()
+    val mutableBrowserSet = browsers.toMutableSet()
+    var duplicateBrowsers: SemanticWarning? = null
+    if(browsers.size != mutableBrowserSet.size) {
+        duplicateBrowsers = SemanticWarning("Duplicate browsers in the list")
+    }
+
+    mutableBrowserSet.removeAll(SUPPORTED_BROWSERS)
+    var unsupportedBrowser: SemanticError? = null
+    if(mutableBrowserSet.isNotEmpty()) {
+        unsupportedBrowser = SemanticError("Browsers $mutableBrowserSet are not supported. Try with one of these $SUPPORTED_BROWSERS")
+    }
+
+    return if(duplicateBrowsers == null && unsupportedBrowser == null) {
+        ValidationResponse();
+    } else if(duplicateBrowsers == null) {
+        ValidationResponse(unsupportedBrowser)
+    } else if(unsupportedBrowser == null) {
+        ValidationResponse(duplicateBrowsers)
+    } else {
+        ValidationResponse(duplicateBrowsers, unsupportedBrowser)
+    }
+}
+
+fun TupParser.BrowserDefinitionContext.validate(): ValidationResponse {
+    val steps = parent.getChild(parent.childCount - 1)
+    var browserNeeded = false
+    for(i in 0 until steps.childCount) {
+        if(steps.getChild(i).getChild(0) is TupParser.OpenWebPageContext) {
+            browserNeeded = true
+            break
+        }
+    }
+
+    if(!browserNeeded) {
+        return ValidationResponse(SemanticWarning("You do not need to define browsers, since there are no web pages opened in the test"))
+    }
+
+    return ValidationResponse()
+}
+
+

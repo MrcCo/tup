@@ -8,8 +8,8 @@ import rs.ac.bg.etf.sm203134m.generation.generators.ui.assertions.generateOnEntr
 import rs.ac.bg.etf.sm203134m.generation.generators.api.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.generateOnExit
+import rs.ac.bg.etf.sm203134m.generation.generators.setup.generateOnEntry
 import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnEntry
-import rs.ac.bg.etf.sm203134m.generation.generators.ui.generateOnExit
 import rs.ac.bg.etf.sm203134m.semantic.TestMetadata
 
 class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener() {
@@ -19,31 +19,19 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
     val symbolTable = SymbolTable()
 
     override fun enterTest(ctx: TupParser.TestContext?) {
-        code += ctx?.generateOnEntry(metadata, symbolTable)
+        code += ctx?.generateOnEntry(metadata)
     }
 
-    override fun exitTest(ctx: TupParser.TestContext?) {
-        code += ctx?.generateOnExit()
+    override fun enterTestName(ctx: TupParser.TestNameContext?) {
+        code += ctx?.generateOnEntry(symbolTable)
     }
 
     override fun enterTestDescription(ctx: TupParser.TestDescriptionContext?) {
         code += ctx?.generateOnEntry()
     }
 
-    override fun enterTestType(ctx: TupParser.TestTypeContext?) {
-        code += ctx?.generateOnEntry(metadata)
-    }
-
-    override fun exitTestType(ctx: TupParser.TestTypeContext?) {
-        code += ctx?.generateOnExit(metadata)
-    }
-
     override fun enterTestSteps(ctx: TupParser.TestStepsContext?) {
         code += ctx?.generateOnEntry(metadata)
-    }
-
-    override fun exitTestSteps(ctx: TupParser.TestStepsContext?) {
-        code += ctx?.generateOnExit(symbolTable)
     }
 
     override fun enterExecuteApiRequest(ctx: TupParser.ExecuteApiRequestContext?) {
@@ -67,8 +55,32 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
         code += ctx?.generateOnEntry()
     }
 
+    override fun enterClickOnElementWithXPath(ctx: TupParser.ClickOnElementWithXPathContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
+    override fun enterFillTextFieldWithValue(ctx: TupParser.FillTextFieldWithValueContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
+    override fun enterAssertThatThereIsNElementsWithXPath(ctx: TupParser.AssertThatThereIsNElementsWithXPathContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
     override fun enterAssertThatCurrentPageIs(ctx: TupParser.AssertThatCurrentPageIsContext?) {
         code += ctx?.generateOnEntry()
+    }
+
+    override fun enterAssertThatTitleIs(ctx: TupParser.AssertThatTitleIsContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
+    override fun exitTestSteps(ctx: TupParser.TestStepsContext?) {
+        code += ctx?.generateOnExit(symbolTable)
+    }
+
+    override fun exitTest(ctx: TupParser.TestContext?) {
+        code += ctx?.generateOnExit()
     }
 
 }

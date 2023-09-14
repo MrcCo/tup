@@ -1,11 +1,9 @@
-name: ExampleTest.
-description: "This an example sdsad".
-type: api.
-steps:
-  Execute an api request to: "https://api.agify.io/?name=jack".
-  Assert that last response has status code: 200.
-  Assert that last response body has field: "name" with value: "jack".
-  Execute an api request to: "https://api.agify.io/?name=marko".
-  Assert that last response has status code: 200.
-  Assert that last response body has field: "name" with value: "marko".
-  Assert that last response body has field: "name" with value: "marko".
+Test name: example.
+Test description: "".
+Test steps:
+    Execute an api request to: POST "https://your-api.api.com" with body '{}'.
+    Assert that last response has status code: 200.
+    Assert that last response body is: '{
+        "key": 23
+    }'.
+    Assert that last response body  has field: "field" with value: "value".
