@@ -55,6 +55,18 @@ class CodeGenerator(private val metadata: TestMetadata) : TupParserBaseListener(
         code += ctx?.generateOnEntry()
     }
 
+    override fun enterClickOnElementWithXPath(ctx: TupParser.ClickOnElementWithXPathContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
+    override fun enterFillTextFieldWithValue(ctx: TupParser.FillTextFieldWithValueContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
+    override fun enterAssertThatThereIsNElementsWithXPath(ctx: TupParser.AssertThatThereIsNElementsWithXPathContext?) {
+        code += ctx?.generateOnEntry()
+    }
+
     override fun enterAssertThatCurrentPageIs(ctx: TupParser.AssertThatCurrentPageIsContext?) {
         code += ctx?.generateOnEntry()
     }

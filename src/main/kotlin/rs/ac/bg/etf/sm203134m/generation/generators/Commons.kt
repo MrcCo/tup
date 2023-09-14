@@ -9,17 +9,18 @@ object Commons {
         return "import ${classToImport};\n"
     }
 
-    fun multilineComment(comment: String): String {
-        return "\t/* $comment */\n"
+    fun comment(comment: String): String {
+        val commentHasMultipleLines = comment.contains("\n")
+        return if(commentHasMultipleLines) "\t/*\n $comment \n*/\n" else "\t/* $comment */\n"
     }
 
 
     fun staticFieldDefinition(fieldType: String, fieldName: String): String {
-        return "\tstatic $fieldType $fieldName;\n"
+        return "\tstatic $fieldType $fieldName;\n\n"
     }
 
     fun staticFieldInitialization(fieldType: String, fieldName: String, initialValue: String): String {
-        return "\tstatic $fieldType $fieldName = $initialValue;\n"
+        return "\tstatic $fieldType $fieldName = $initialValue;\n\n"
     }
 
 
@@ -87,4 +88,13 @@ object Commons {
             .replace("'", "\"")
             .replace(" ", "")
     }
+
+    fun driverElementWithXPathCallMethod(xPath: String, methodName: String, arguments: List<String>): String {
+        return "\t\tdriver.findElement(By.xpath($xPath)).$methodName(${arguments.joinToString(",")});\n"
+    }
+
+    fun incompleteDriverFindElementsByXPathCallMethod(xPath: String, methodName: String, arguments: List<String>): String {
+        return "driver.findElements(By.xpath($xPath)).$methodName(${arguments.joinToString(",")})"
+    }
+
 }
